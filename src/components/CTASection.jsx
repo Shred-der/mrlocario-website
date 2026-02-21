@@ -13,7 +13,7 @@ const CTASection = () => {
 
                     <div className="relative flex flex-col lg:flex-row items-center justify-between gap-12">
                         <div className="lg:w-2/3 reveal-left">
-                            <h2 className="text-4xl md:text-6xl font-display font-extrabold text-white mb-6 leading-tight">
+                            <h2 className="text-[28px] sm:text-4xl md:text-6xl font-display font-extrabold text-white mb-6 leading-tight whitespace-nowrap">
                                 Ready to <span className="text-primary">Level Up?</span>
                             </h2>
                             <p className="text-xl text-gray-300 mb-10 max-w-2xl font-light leading-relaxed">
