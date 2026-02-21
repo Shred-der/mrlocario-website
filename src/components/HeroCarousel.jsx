@@ -7,6 +7,8 @@ import yourFaultBanner from '../assets/your-fault-banner.jpg'
 
 const HeroCarousel = () => {
     const [currentSlide, setCurrentSlide] = useState(0)
+    const [touchStart, setTouchStart] = useState(0)
+    const [touchEnd, setTouchEnd] = useState(0)
     const totalSlides = 5
 
     const slides = [
@@ -55,13 +57,42 @@ const HeroCarousel = () => {
         return () => clearInterval(timer)
     }, [])
 
+    const handleTouchStart = (e) => {
+        setTouchStart(e.targetTouches[0].clientX)
+    }
+
+    const handleTouchMove = (e) => {
+        setTouchEnd(e.targetTouches[0].clientX)
+    }
+
+    const handleTouchEnd = () => {
+        if (!touchStart || !touchEnd) return
+        const distance = touchStart - touchEnd
+        const isLeftSwipe = distance > 50
+        const isRightSwipe = distance < -50
+
+        if (isLeftSwipe) {
+            moveSlide(1)
+        } else if (isRightSwipe) {
+            moveSlide(-1)
+        }
+
+        setTouchStart(0)
+        setTouchEnd(0)
+    }
+
     return (
         <header className="relative w-full overflow-hidden z-10 pt-20">
             {/* Ambient Flares - keeping them as they add to the premium look outside the image area */}
             <div className="ambient-flare -top-24 -left-24"></div>
             <div className="ambient-flare -bottom-24 -right-24"></div>
 
-            <div className="relative w-full h-[300px] sm:h-[420px] md:h-[550px] lg:h-[750px] overflow-hidden group">
+            <div
+                className="relative w-full h-[300px] sm:h-[420px] md:h-[550px] lg:h-[750px] overflow-hidden group touch-pan-y"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+            >
                 {/* Carousel Slides */}
                 <div
                     className="flex transition-transform duration-700 ease-in-out h-full"
@@ -77,7 +108,7 @@ const HeroCarousel = () => {
                             />
                             {/* Dot pattern overlay - sits above the image */}
                             <div
-                                className="absolute inset-0 z-10 pointer-events-none"
+                                className="absolute inset-0 z-10 pointer-events-none opacity-90 md:opacity-100"
                                 style={{
                                     backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d32f2f' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")"
                                 }}
@@ -101,7 +132,7 @@ const HeroCarousel = () => {
                 </button>
 
                 {/* Pagination Dots */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-4 z-20 p-2 rounded-full bg-black/10 backdrop-blur-sm">
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex space-x-4 z-20 p-2 rounded-full bg-black/10 backdrop-blur-sm">
                     {slides.map((_, index) => (
                         <button
                             key={index}
