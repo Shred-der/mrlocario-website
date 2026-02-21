@@ -1,0 +1,291 @@
+﻿@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #D32F2F;
+  --color-primary-dark: #B71C1C;
+  --color-primary-light: #EF5350;
+  --color-secondary: #FFD700;
+  --color-surface-light: #FFFFFF;
+  --color-surface-dark: #121212;
+  --color-surface-accent: #1E1E1E;
+  --color-background-light: #FAFAFA;
+  --color-background-dark: #050505;
+
+  --font-display: "Playfair Display", serif;
+  --font-body: "Inter", sans-serif;
+
+  --shadow-cinematic: 0 10px 30px -10px rgba(211, 47, 47, 0.3);
+  --shadow-cinematic-hover: 0 20px 40px -12px rgba(211, 47, 47, 0.5);
+
+  --background-image-radial-glow: radial-gradient(circle at center, rgba(211, 47, 47, 0.15) 0%, transparent 70%);
+}
+
+@layer base {
+  body {
+    @apply bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-body transition-colors duration-300;
+  }
+
+  /* Single fixed overlay covering the entire viewport at all times.
+     position:fixed → always visible regardless of scroll position.
+     pointer-events:none → never blocks clicks.
+     z-index:9998 → on top of all content, below modals only.
+     This eliminates doubling and ensures the pattern shows on nav/header/everywhere. */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d32f2f' fill-opacity='0.065'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+
+  .dark .glass-card {
+    background: rgba(18, 18, 18, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .geo-texture {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d32f2f' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .ambient-flare {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(211, 47, 47, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glass-input {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    transition: all 0.3s ease;
+  }
+
+  .glass-input:focus {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(211, 47, 47, 0.5) !important;
+    box-shadow: 0 0 15px rgba(211, 47, 47, 0.2) !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e5e7eb;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D32F2F;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B71C1C;
+}
+
+* {
+  scrollbar-color: #D32F2F transparent;
+  scrollbar-width: thin;
+}
+
+/* ─── Scroll Reveal Animations ──────────────────────────────────── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Base hidden state before viewport entry */
+.reveal-up,
+.reveal-left,
+.reveal-right,
+.reveal-scale,
+.reveal-fade {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* Active states — driven by JS IntersectionObserver */
+.reveal-up.is-visible {
+  animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.reveal-left.is-visible {
+  animation: slideLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.reveal-right.is-visible {
+  animation: slideRight 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.reveal-scale.is-visible {
+  animation: scaleIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.reveal-fade.is-visible {
+  animation: fadeIn 0.7s ease both;
+}
+
+/* Stagger delay helpers */
+.stagger-1 {
+  animation-delay: 0.05s !important;
+}
+
+.stagger-2 {
+  animation-delay: 0.12s !important;
+}
+
+.stagger-3 {
+  animation-delay: 0.18s !important;
+}
+
+.stagger-4 {
+  animation-delay: 0.24s !important;
+}
+
+.stagger-5 {
+  animation-delay: 0.30s !important;
+}
+
+.stagger-6 {
+  animation-delay: 0.36s !important;
+}
+
+/* ─── Text shimmer effect ────────────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.text-shimmer {
+  background: linear-gradient(90deg,
+      currentColor 0%,
+      #ef5350 50%,
+      currentColor 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ─── Button Text Streak Animation ───────────────────────────────── */
+@keyframes textStreak {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-streak-animate {
+  background: linear-gradient(90deg,
+      #ffffff 0%,
+      #ffffff 35%,
+      #FF8F00 40%,
+      /* Deep Amber */
+      #FFC107 45%,
+      /* Rich Yellow */
+      #FFF59D 50%,
+      /* Pale Yellow Core */
+      #FFC107 55%,
+      /* Rich Yellow */
+      #FF8F00 60%,
+      /* Deep Amber */
+      #ffffff 65%,
+      #ffffff 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: white;
+  /* fallback */
+  animation: textStreak 8s ease-in-out infinite;
+}
