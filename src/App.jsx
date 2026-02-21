@@ -6,6 +6,7 @@ import FreeResources from './components/FreeResources'
 import LatestInsights from './components/LatestInsights'
 import CTASection from './components/CTASection'
 import Footer from './components/Footer'
+import CanvasDots from './components/CanvasDots'
 import useScrollReveal from './hooks/useScrollReveal'
 
 const App = () => {
@@ -42,6 +43,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen">
+      <CanvasDots />
       <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
       <main>
         <HeroCarousel />
